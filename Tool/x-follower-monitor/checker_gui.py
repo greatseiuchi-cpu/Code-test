@@ -46,8 +46,10 @@ class FollowerCheckerGUI:
 
     def log(self, message):
         """スレッドセーフなログ出力"""
-        self.output_area.insert(tk.END, message + "\n")
-        self.output_area.see(tk.END)
+        def _append():
+            self.output_area.insert(tk.END, message + "\n")
+            self.output_area.see(tk.END)
+        self.root.after(0, _append)
 
     def start_analysis_thread(self):
         """分析を別スレッドで開始（GUIをフリーズさせない）"""
@@ -74,7 +76,7 @@ class FollowerCheckerGUI:
             json_files = glob.glob(os.path.join(INPUT_DIR, '*.json'))
             if not json_files:
                 self.log("エラー: inputフォルダにJSONがありません。")
-                self.btn.config(state=tk.NORMAL)
+                self.root.after(0, lambda: self.btn.config(state=tk.NORMAL))
                 return
             
             latest_json = max(json_files, key=os.path.getctime)
@@ -119,7 +121,7 @@ class FollowerCheckerGUI:
         except Exception as e:
             self.log(f"予期せぬエラー: {e}")
         finally:
-            self.btn.config(state=tk.NORMAL) # ボタンを元に戻す
+            self.root.after(0, lambda: self.btn.config(state=tk.NORMAL)) # ボタンを元に戻す
 
 if __name__ == "__main__":
     root = tk.Tk()
