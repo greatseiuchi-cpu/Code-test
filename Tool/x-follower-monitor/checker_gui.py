@@ -94,7 +94,14 @@ class FollowerCheckerGUI:
             # 3. ループ処理
             suspects = 0
             for user in followers:
-                if user['accountId'] in allow_list: continue
+                account_id = user.get('accountId')
+                username = user.get('username')
+
+                if not account_id or not username:
+                    self.log(f"警告: 不正な形式のユーザーエントリをスキップ: {user}")
+                    continue
+
+                if account_id in allow_list: continue
 
                 # ノイズ除去
                 bio = user.get('bio', '')
@@ -105,7 +112,7 @@ class FollowerCheckerGUI:
                 found = [word for word in ng_list if word in bio]
                 if found:
                     suspects += 1
-                    self.log(f"【検知】 {user['accountId']} ({user['username']})")
+                    self.log(f"【検知】 {account_id} ({username})")
                     self.log(f" 理由(KW): {', '.join(found)}")
                     
                     if self.client:
@@ -114,7 +121,7 @@ class FollowerCheckerGUI:
                             # 最新SDK形式での呼び出し
                             response = self.client.models.generate_content(
                                 model="gemini-1.5-flash",
-                                contents=f"以下のXユーザーを分析し、スパム(投資・エロ・勧誘)か判定して。理由も100文字以内で。\n名前:{user['username']}\nBio:{bio}"
+                                contents=f"以下のXユーザーを分析し、スパム(投資・エロ・勧誘)か判定して。理由も100文字以内で。\n名前:{username}\nBio:{bio}"
                             )
                             self.log(f" {response.text}")
                         except Exception as ai_e:
