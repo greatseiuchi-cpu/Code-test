@@ -68,6 +68,7 @@ class FollowerCheckerGUI:
             
             # 不要な固定文言を削除
             noise_phrases = ["フォローされています", "フォローバック", "フォロー中"]
+            # CodeRabbit レビューテスト: このクリーニング処理のロジックについて詳細なレビューを希望します。特に、正規表現を使ったより効率的な処理方法がないか検討したいです。
             clean_bio = raw_bio
             for phrase in noise_phrases:
                 clean_bio = clean_bio.replace(phrase, "")
