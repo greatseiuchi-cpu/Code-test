@@ -4,7 +4,6 @@ import glob
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
 import threading  # ブロック解消用
-from google import genai  # 最新SDK
 
 # フォルダ構成
 NG_FILE = 'config/ng_words.txt'
@@ -33,12 +32,18 @@ class FollowerCheckerGUI:
 
     def init_ai(self):
         """APIキーの読み込みとクライアント初期化"""
+        self.client = None # 初期化
         try:
             if os.path.exists(API_KEY_FILE):
                 with open(API_KEY_FILE, 'r', encoding='utf-8') as f:
                     api_key = f.read().strip()
                 if api_key:
-                    self.client = genai.Client(api_key=api_key)
+                    try:
+                        from google import genai
+                        self.client = genai.Client(api_key=api_key)
+                    except ImportError:
+                        self.log("警告: google-genaiがインストールされていません。AI分析はスキップされます。")
+                        return
             else:
                 self.log("警告: config/api_key.txt が見つかりません。AI分析はスキップされます。")
         except Exception as e:
