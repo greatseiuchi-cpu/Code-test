@@ -3,6 +3,7 @@ import os
 import glob
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
+import threading # Added for background AI calls
 import google.generativeai as genai
 
 # フォルダ構成の設定
@@ -31,14 +32,25 @@ class FollowerCheckerGUI:
         self.init_ai()
 
     def init_ai(self):
-        if os.path.exists(API_KEY_FILE):
-            with open(API_KEY_FILE, 'r', encoding='utf-8') as f:
-                api_key = f.read().strip()
-                genai.configure(api_key=api_key)
-                self.model = genai.GenerativeModel('gemini-1.5-flash')
-                self.ai_enabled = True
-        else:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key and os.path.exists(API_KEY_FILE):
+            try:
+                with open(API_KEY_FILE, 'r', encoding='utf-8') as f:
+                    api_key = f.read().strip()
+            except Exception as e:
+                messagebox.showwarning("警告", f"APIキーファイルの読み込みに失敗しました: {e}")
+                self.ai_enabled = False
+                return
+        if not api_key:
             self.ai_enabled = False
+            return
+        try:
+            genai.configure(api_key=api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.ai_enabled = True
+        except Exception as e:
+            self.ai_enabled = False
+            messagebox.showwarning("警告", f"AI初期化に失敗しました: {e}")
 
     def get_ai_report(self, username, bio):
         if not self.ai_enabled: return "APIキー未設定のためAI分析スキップ"
@@ -105,15 +117,20 @@ class FollowerCheckerGUI:
                 self.output_area.insert(tk.END, f"【検知】 {user['accountId']} ({user['username']})\n")
                 self.output_area.insert(tk.END, f" 理由(KW): {', '.join(found)}\n")
                 
-                # AIレポートの取得
+                # AIレポートの取得（非同期化）
                 self.output_area.insert(tk.END, " AI分析中...\n")
-                self.root.update() # 画面を更新して「分析中」を出す
-                
-                report = self.get_ai_report(user['username'], clean_bio)
-                self.output_area.insert(tk.END, f"{report}\n")
-                self.output_area.insert(tk.END, "-"*70 + "\n")
+                self.root.update_idletasks() # 画面を更新して「AI分析中」を表示
 
-        self.output_area.insert(tk.END, f"\n完了: {len(followers)}件中、{suspects}件を検知。")
+                def _run_ai_in_background(u=user['username'], b=clean_bio):
+                    report = self.get_ai_report(u, b)
+                    self.root.after(0, lambda: self._append_ai_report(report))
+                threading.Thread(target=_run_ai_in_background, daemon=True).start()
+
+        self.output_area.insert(tk.END, f"\n螳御ｺ: {len(followers)}莉ｶ荳ｭ縲＋suspects}莉ｶ繧呈､懃衍縲")
+
+    def _append_ai_report(self, report):
+        self.output_area.insert(tk.END, f"{report}\n")
+        self.output_area.insert(tk.END, "-"*70 + "\n")
 
 if __name__ == "__main__":
     root = tk.Tk()
