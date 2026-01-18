@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "OL9D/D2iz3M=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\seiuchi\\gemini-project\\CsvLedger\\CsvLedger.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\seiuchi\\.nuget\\packages\\csvhelper\\33.1.0\\csvhelper.33.1.0.nupkg.sha512",
+    "C:\\Users\\seiuchi\\.nuget\\packages\\system.text.encoding.codepages\\9.0.10\\system.text.encoding.codepages.9.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

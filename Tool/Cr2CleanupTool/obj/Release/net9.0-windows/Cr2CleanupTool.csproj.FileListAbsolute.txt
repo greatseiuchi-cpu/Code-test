@@ -1,0 +1,14 @@
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\bin\Release\net9.0-windows\Cr2CleanupTool.exe
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\bin\Release\net9.0-windows\Cr2CleanupTool.deps.json
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\bin\Release\net9.0-windows\Cr2CleanupTool.runtimeconfig.json
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\bin\Release\net9.0-windows\Cr2CleanupTool.dll
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\bin\Release\net9.0-windows\Cr2CleanupTool.pdb
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.AssemblyInfoInputs.cache
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.AssemblyInfo.cs
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.csproj.CoreCompileInputs.cache
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.dll
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\refint\Cr2CleanupTool.dll
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.pdb
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\Cr2CleanupTool.genruntimeconfig.cache
+C:\Users\seiuchi\gemini-project\Cr2CleanupTool\obj\Release\net9.0-windows\ref\Cr2CleanupTool.dll
