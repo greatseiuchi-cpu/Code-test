@@ -58,6 +58,9 @@ class FollowerCheckerGUI:
         self.output_area.insert(tk.END, f"分析対象: {os.path.basename(latest_json)}\n")
         self.output_area.insert(tk.END, "="*60 + "\n")
 
+        # 不要な固定文言を削除 (CodeRabbitの指摘によりループ外に移動)
+        noise_phrases = ["フォローされています", "フォローバック", "フォロー中"]
+
         suspects = 0
         for user in followers:
             if user['accountId'] in allow_list:
@@ -66,9 +69,6 @@ class FollowerCheckerGUI:
             # --- ここからクリーニング処理 ---
             raw_bio = user.get('bio', '')
             
-            # 不要な固定文言を削除
-            noise_phrases = ["フォローされています", "フォローバック", "フォロー中"]
-            # CodeRabbit レビューテスト: このクリーニング処理のロジックについて詳細なレビューを希望します。特に、正規表現を使ったより効率的な処理方法がないか検討したいです。
             clean_bio = raw_bio
             for phrase in noise_phrases:
                 clean_bio = clean_bio.replace(phrase, "")
